@@ -48,7 +48,7 @@ Créer ou modifier le fichier `config.json` dans le **dossier parent du script**
   "githubProfile": "TonPseudoGitHub",
   "discordWebhook": "https://discord.com/api/webhooks/ID/TOKEN",
   "serverID": "TonServerID",
-  "checkInterval": 300000
+  "checkInterval": 1200000
 }
 ```
 
