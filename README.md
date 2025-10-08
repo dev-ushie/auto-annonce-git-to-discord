@@ -154,7 +154,7 @@ Pour une meilleure sécurité, utilisez des variables d'environnement:
 
 MIT
 
-## 🤝 Contribution
+## 🤝 Contributions
 
 Les contributions sont les bienvenues! N'hésitez pas à ouvrir une issue ou une pull request.
 
