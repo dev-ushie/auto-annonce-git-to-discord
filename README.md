@@ -30,7 +30,7 @@ Un bot Node.js qui surveille automatiquement un profil GitHub et envoie des noti
    ```bash
    npm install node-fetch
    ```
-   > Note: Node.js 18+ inclut fetch nativement
+> Note: Node.js 18+ inclut fetch nativement
 
 ## ⚙️ Configuration
 
@@ -161,4 +161,3 @@ Les contributions sont les bienvenues! N'hésitez pas à ouvrir une issue ou une
 ---
 
 Créé avec ❤️ pour surveiller l'activité GitHub
-
