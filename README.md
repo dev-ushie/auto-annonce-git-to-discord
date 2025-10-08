@@ -2,97 +2,163 @@
 ![GitHub](https://img.shields.io/badge/GitHub-Auto%20Annonce-blue)
 ![Discord](https://img.shields.io/badge/Discord-Webhook-blueviolet)
 
-Un bot Node.js qui surveille un **profil GitHub** et envoie automatiquement des **annonces sur Discord** via webhook quand :  
+# 🤖 GitHub Discord Monitor Bot
 
-- Un **nouveau projet** est publié  
-- Le **README d’un projet existant** est mis à jour  
-- Au premier lancement, tous les projets existants sont annoncés  
+Un bot Node.js qui surveille automatiquement un profil GitHub et envoie des notifications Discord lors de la création ou mise à jour de repositories.
 
-L’annonce utilise un **embed Discord** avec le **nom du repo**, une **description**, le **lien `[Nom](Lien)`** et le **petit avatar GitHub**.
+## 📋 Prérequis
 
----
+- Node.js (version 14 ou supérieure)
+- npm (inclus avec Node.js)
+- Un webhook Discord
+- Un profil GitHub public à surveiller
 
-## Fonctionnalités
+## 🚀 Installation
 
-- Détection automatique des **nouveaux repos**  
-- Détection automatique des **mises à jour README**  
-- Envoi **embellie avec embed Discord**  
-- Annonce tous les projets existants au premier lancement  
-- Configuration simple via `config.json`  
+1. **Cloner ou télécharger le projet**
+   ```bash
+   git clone <votre-repo>
+   cd github-discord-monitor
+   ```
 
----
+2. **Initialiser le projet npm**
+   ```bash
+   npm init -y
+   ```
 
-## Installation
+3. **Installer les dépendances** (si nécessaire)
+   ```bash
+   npm install node-fetch
+   ```
+   > Note: Node.js 18+ inclut fetch nativement
 
-1. Cloner le repo :
+## ⚙️ Configuration
 
-```bash
-git clone https://github.com/TonPseudoGitHub/auto-annonce-git-to-discord.git
-cd auto-annonce-git-to-discord
-````
+Ouvrez le fichier `bot.js` et modifiez les paramètres dans l'objet `config`:
 
-2. Installer les dépendances :
-
-```bash
-npm install
+```javascript
+const config = {
+  githubProfile: "VOTRE_USERNAME_GITHUB",
+  webhookAvatar: "URL_IMAGE_AVATAR_BOT",
+  discordWebhook: "VOTRE_WEBHOOK_DISCORD",
+  serverID: "VOTRE_SERVER_ID",
+  checkInterval: 1200000 // 20 minutes (en millisecondes)
+};
 ```
 
----
+### 📝 Comment obtenir ces informations:
 
-## Configuration
+- **githubProfile**: Votre nom d'utilisateur GitHub
+- **webhookAvatar**: URL d'une image pour l'avatar du bot
+- **discordWebhook**: 
+  1. Allez dans Paramètres du Serveur Discord
+  2. Intégrations → Webhooks → Nouveau Webhook
+  3. Copiez l'URL du webhook
+- **serverID**: ID de votre serveur Discord
+- **checkInterval**: Intervalle en millisecondes (1200000 = 20 min)
 
-Créer ou modifier le fichier `config.json` dans le **dossier parent du script** (par exemple `../config.json`) :
+## 🎯 Utilisation
+
+### Démarrer le bot
+
+```bash
+npm start
+```
+
+ou
+
+```bash
+node bot.js
+```
+
+### Arrêter le bot
+
+Appuyez sur `Ctrl + C` dans le terminal
+
+## 📦 Scripts npm disponibles
+
+Ajoutez ces scripts dans votre `package.json`:
 
 ```json
 {
-  "githubProfile": "TonPseudoGitHub",
-  "discordWebhook": "https://discord.com/api/webhooks/ID/TOKEN",
-  "serverID": "TonServerID",
-  "checkInterval": 1200000
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node --watch bot.js"
+  }
 }
 ```
 
-* **githubProfile** : le pseudo GitHub que tu veux surveiller
-* **discordWebhook** : ton webhook Discord pour les annonces
-* **serverID** : ton serveur Discord (optionnel, pour référence)
-* **checkInterval** : intervalle en millisecondes pour vérifier les mises à jour (ici 5 minutes)
+Ensuite utilisez:
+- `npm start` - Lance le bot
+- `npm run dev` - Lance avec rechargement automatique (Node.js 18+)
+
+## 🔧 Fonctionnalités
+
+- ✅ Détection automatique des **nouveaux repositories**
+- ✅ Détection des **mises à jour** de repositories existants
+- ✅ Notifications Discord avec **embeds élégants**
+- ✅ Photo de profil GitHub dans les embeds
+- ✅ Informations détaillées: stars, forks, langage, dates
+- ✅ Couleurs différenciées (vert pour nouveau, bleu pour mise à jour)
+
+## 📊 Exemple de notification Discord
+
+Le bot envoie des embeds contenant:
+- 🆕/🔄 Titre (Nouveau ou Mis à Jour)
+- 📝 Description du repository
+- 👤 Auteur avec lien vers le profil
+- ⭐ Nombre de stars
+- 🍴 Nombre de forks
+- 📝 Langage principal
+- 📅 Date de création et de dernière mise à jour
+
+## ⚠️ Notes importantes
+
+- Au **premier lancement**, le bot initialise tous les repos sans envoyer de notifications
+- Les données sont stockées en **mémoire** (redémarrer le bot réinitialise le suivi)
+- Respecte les **limites de l'API GitHub** (60 requêtes/heure sans authentification)
+- Pause automatique entre les notifications pour éviter le rate limit Discord
+
+## 🔒 Sécurité
+
+⚠️ **Ne partagez JAMAIS votre webhook Discord publiquement!**
+
+Pour une meilleure sécurité, utilisez des variables d'environnement:
+
+1. Créez un fichier `.env`:
+   ```env
+   GITHUB_PROFILE=votre_username
+   DISCORD_WEBHOOK=votre_webhook_url
+   SERVER_ID=votre_server_id
+   ```
+
+2. Installez dotenv:
+   ```bash
+   npm install dotenv
+   ```
+
+3. Modifiez le code pour utiliser:
+   ```javascript
+   require('dotenv').config();
+   
+   const config = {
+     githubProfile: process.env.GITHUB_PROFILE,
+     discordWebhook: process.env.DISCORD_WEBHOOK,
+     // ...
+   };
+   ```
+
+4. Ajoutez `.env` à votre `.gitignore`
+
+## 📄 Licence
+
+MIT
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues! N'hésitez pas à ouvrir une issue ou une pull request.
 
 ---
 
-## Lancement
-
-Lancer le bot :
-
-```bash
-node module/github-annonce.js
-```
-
-* Au premier lancement, tous les projets existants seront annoncés sur Discord
-* Ensuite, seules les **nouveautés** et **README mis à jour** seront annoncés
-
----
-
-## Exemple d’annonce Discord
-
-**Format de l’annonce :**
-
-```
-📢 Projet détecté: NomDuRepo
-[NomDuRepo](https://github.com/TonPseudoGitHub/NomDuRepo)
-Description du projet ici
-```
-
-* Le **thumbnail** : petit avatar GitHub du profil
-* Le **footer** : `auto-annonce-git-to-discord`
-
----
-
-## Conseils
-
-* Assure-toi que ton **webhook Discord** a les permissions pour **envoyer des embeds**
-* Augmente ou diminue `checkInterval` selon ton besoin pour ne pas saturer l’API GitHub
-* Ce bot peut tourner **en arrière-plan** avec `pm2` ou autre gestionnaire de processus
-
-```
-
+Créé avec ❤️ pour surveiller l'activité GitHub
 
